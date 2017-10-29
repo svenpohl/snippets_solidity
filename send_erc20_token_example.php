@@ -142,10 +142,10 @@ exit(0);
 
 //
 //
-// Example 2 - Send  ERC20-token of an account
+// Example 3 - Send  ERC20-token of an account
 //
 //
-if (0)
+if (0) 
 {
 
 /* ---
