@@ -39,15 +39,14 @@ library SafeMath {
 
 // We need this interface to interact with out ERC20 - tokencontract
 contract ERC20Interface {
-      function totalSupply() public constant returns (uint);
-      function balanceOf(address tokenOwner) public constant returns (uint balance);
-      function allowance(address tokenOwner, address spender) public constant returns (uint remaining);
-      function transfer(address to, uint tokens) public returns (bool success);
-      function approve(address spender, uint tokens) public returns (bool success);
-      function transferFrom(address from, address to, uint tokens) public returns (bool success);
- 
-      event Transfer(address indexed from, address indexed to, uint tokens);
-      event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+         // function totalSupply() public constant returns (uint256);
+      function balanceOf(address tokenOwner) public constant returns (uint256 balance);
+         // function allowance(address tokenOwner, address spender) public constant returns (uint256 remaining);
+      function transfer(address to, uint256 tokens) public returns (bool success);
+         // function approve(address spender, uint256 tokens) public returns (bool success);
+         // function transferFrom(address from, address to, uint256 tokens) public returns (bool success);
+         // event Transfer(address indexed from, address indexed to, uint256 tokens);
+         // event Approval(address indexed tokenOwner, address indexed spender, uint256 tokens);
  } 
 
 
@@ -116,14 +115,7 @@ if ( msg.value >= 1250000000000000 )
           // Send tokens to buyer
           last_transfer_state = loveContract.transfer(msg.sender,  tokens);
           
-          if (!last_transfer_state)
-             {
-             revert();
-             } else
-               {
-               lastaction = "Token transfer completed";
-               }
-      
+          
       } // if (available_tokens >= tokens)
       else
           {
@@ -166,6 +158,16 @@ lastaction = "Withdraw";
 function kill () public
 {
 if (msg.sender != owner) return;
+
+
+// Transfer tokens back to owner
+address tokenAddress = 0x26B1FBE292502da2C8fCdcCF9426304d0900b703;
+ERC20Interface loveContract = ERC20Interface(tokenAddress); // LOV's is 0x26B1FBE292502da2C8fCdcCF9426304d0900b703
+
+uint256 balance = loveContract.balanceOf(this);
+assert(balance > 0);
+loveContract.transfer(owner, balance);
+
 
 owner.transfer( this.balance );
 selfdestruct(owner);
